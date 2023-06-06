@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mining in progress</title>
+</head>
+<body>
+    <h2>You just start mining and making money</h2>
+    <p>Message: <span id="message"></span></p>
+    <p>Index: <span id="index"></span></p>
+    <p>Timestamp: <span id="timestamp"></span></p>
+    <p>Proof: <span id="proof"></span></p>
+    <p>Previous Hash: <span id="previous_hash"></span></p>
+
+
+    <form action="/home">
+        <input type="submit" value="Home" />
+    </form>
+    <form action="/get_chain">
+        <input type="submit" value="Get chain" />
+    </form>
+    <form action="/valid">
+        <input type="submit" value="Valid" />
+    </form>
+
+    <script>
+        // Retrieve the JSON string passed from Flask
+        var jsonString = '{{ json_data|safe }}';
+
+        // Parse the JSON string into a JavaScript object
+        var jsonData = JSON.parse(jsonString);
+
+        document.getElementById('message').textContent = jsonData.message;
+        document.getElementById('index').textContent = jsonData.index;
+        document.getElementById('timestamp').textContent = jsonData.timestamp;
+        document.getElementById('proof').textContent = jsonData.proof;
+        document.getElementById('previous_hash').textContent = jsonData.previous_hash;
+    </script>
+</body>
+</html>

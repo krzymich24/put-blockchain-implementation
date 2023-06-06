@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lenght of the chain</title>
+</head>
+<body>
+    <h2>Make it bigger</h2>
+    <p>Chain:</p>
+    <ol id="chain"></ol>
+    <p>Length: <span id="length"></span></p>
+   
+    <form action="/home">
+        <input type="submit" value="Home" />
+    </form>
+    <form action="/mine_block">
+        <input type="submit" value="Mine block" />
+    </form>
+    <form action="/valid">
+        <input type="submit" value="Valid" />
+    </form>
+
+    <script>
+        // Retrieve the JSON string passed from Flask
+        var jsonString = '{{ json_data|safe }}';
+
+        // Parse the JSON string into a JavaScript object
+        var jsonData = JSON.parse(jsonString)
+        const chain = (jsonData.chain ?? [])
+        .map(block=>{
+            const{index,previous_hash,proof,timestamp}=block
+            return JSON.stringify(block)
+            //return `${index} , ${previous_hash} , ${proof} , ${timestamp}`
+        })
+        .map(el=>`<li>${el}</li>`)
+        .join('')   
+        
+        // Access the data and display it on the webpage
+        console.log(jsonData.chain);
+
+        document.getElementById('chain').innerHTML = chain;
+        document.getElementById('length').textContent = jsonData.length;
+
+    </script>
+</body>
+</html>
