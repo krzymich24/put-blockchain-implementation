@@ -21,6 +21,9 @@
     <form action="/valid">
         <input type="submit" value="Valid" />
     </form>
+    <form action="{{ url_for('logout') }}" method="GET">
+        <button type="submit">Logout</button>
+    </form>
 
     <script>
         // Retrieve the JSON string passed from Flask

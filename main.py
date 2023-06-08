@@ -9,7 +9,7 @@ blockchain = Blockchain()
 users = {
     'admin': 'passwd',
     'JP2': '2137',
-    'admin': 'passwd'
+    'root': 'root'
 }
 
 
@@ -92,6 +92,12 @@ def valid():
 			return jsonify(response), 200
 	else:
 		return redirect(url_for('login'))
+        
+@app.route('/logout')
+def logout():
+    # Clear the session and redirect to the login page
+    session.clear()
+    return redirect(url_for('login'))
 # Run the flask server locally
 app.run(host='127.0.0.1', port=5000)
 
