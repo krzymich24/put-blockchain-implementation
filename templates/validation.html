@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Length of the chain</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                padding: 0;
+                background-color: #f2f2f2;
+            }
+            
+            h2 {
+                font-size: 24px;
+                color: #333;
+            }
+            
+            p {
+                margin: 10px 0;
+            }
+            
+                        
+            #length {
+                font-weight: bold;
+            }
+            
+            form {
+                margin-bottom: 10px;
+            }
+            
+            input[type="submit"],
+            button {
+                background-color: #4CAF50;
+                border: none;
+                color: white;
+                padding: 8px 16px;
+                text-decoration: none;
+                font-size: 14px;
+                cursor: pointer;
+            }
+            
+            input[type="submit"]:hover,
+            button:hover {
+                background-color: #45a049;
+            }
+            span{
+                color:#FF0000;
+            }
+        </style>
+    </head>
+<body>
+    <h2>To valid or not to valid? This is a question</h2>
+    
+    <p>Validation is it: <span id="message"></span></p>
+   
+    <form action="/home">
+        <input type="submit" value="Home" />
+    </form>
+    <form action="/mine_block">
+        <input type="submit" value="Mine block" />
+    </form>
+    <form action="/get_chain">
+        <input type="submit" value="Get chain" />
+    </form>
+    <form action="{{ url_for('logout') }}" method="GET">
+        <button type="submit">Logout</button>
+    </form>
+    <script>
+        // Retrieve the JSON string passed from Flask
+        var jsonString = '{{ json_data|safe }}';
+
+        // Parse the JSON string into a JavaScript object
+        var jsonData = JSON.parse(jsonString);
+
+        document.getElementById('message').textContent = jsonData.message;
+    </script>
+</body>
+</html>

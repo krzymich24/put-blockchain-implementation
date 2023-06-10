@@ -82,7 +82,8 @@ def valid():
         else:
             response = {'message': 'The Blockchain is invalid!'}
 
-        return jsonify(response), 200
+        json_data = json.dumps(response)
+        return render_template('validation.html', json_data=json_data)
     else:
         return redirect(url_for('login'))
     
