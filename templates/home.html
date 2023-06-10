@@ -10,11 +10,14 @@
             background-color: #f2f2f2;
         }
         
-        h2 {
+        h1 {
             font-size: 24px;
             color: #333;
         }
-        
+        h3 {
+            font-size: 18px;
+            color: #333;
+        }        
         p {
             margin: 10px 0;
         }
@@ -41,12 +44,13 @@
     </style>
 </head>
 <body>
-    <h2>Welcome in Blockchain app</h2>
-    <p>You have successfully logged in!</p>
-    <p>Have fun and bring us big amount of income</p>
+    <h1>Welcome in Blockchain app</h2>
+    <h3>You have successfully logged in!</h3>
+    <h3>Have fun and bring us big amount of income</h3>
 
-    <form action="/mine_block">
-        <input type="submit" value="Mine new block" />
+    <form action="{{ url_for('mine_block') }}" method="POST">
+        <input type="text" name="text_input" placeholder="Insert your secret message" required>
+        <input type="submit" value="Mine new block">
     </form>
     <form action="/get_chain">
         <input type="submit" value="Get chain" />

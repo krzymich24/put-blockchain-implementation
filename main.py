@@ -44,10 +44,10 @@ def home():
         return redirect(url_for('login'))
 
 # Mining a new block
-@app.route('/mine_block', methods=['GET'])
+@app.route('/mine_block', methods=['GET', 'POST'])
 def mine_block():
     if 'username' in session:
-        msg = "" #tutaj dodawanie wiadomosci    
+        msg = request.form.get('text_input')   
         author = session['username']
         proof = blockchain.proof_of_work()
         completed_at = str(datetime.datetime.now())
