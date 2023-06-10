@@ -48,7 +48,7 @@ def home():
 def mine_block():
     if 'username' in session:
         msg = "" #tutaj dodawanie wiadomosci    
-        author = "" #tutaj dodawanie autora
+        author = session['username']
         proof = blockchain.proof_of_work()
         completed_at = str(datetime.datetime.now())
         response = blockchain.append_block(msg, author, completed_at, proof)
