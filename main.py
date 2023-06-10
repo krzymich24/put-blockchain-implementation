@@ -1,5 +1,6 @@
 import json
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session
+import datetime
 from blockchain import Blockchain
 
 app = Flask(__name__)
@@ -45,24 +46,19 @@ def home():
 # Mining a new block
 @app.route('/mine_block', methods=['GET'])
 def mine_block():
-	if 'username' in session:
+    if 'username' in session:
+        msg = "" #tutaj dodawanie wiadomosci    
+        author = "" #tutaj dodawanie autora
+        proof = blockchain.proof_of_work()
+        completed_at = str(datetime.datetime.now())
+        response = blockchain.append_block(msg, author, completed_at, proof)
+        if response is None:
+            print('Block discarded.')
                 
-		previous_block = blockchain.print_previous_block()
-		previous_proof = previous_block['proof']
-		proof = blockchain.proof_of_work(previous_proof)
-		previous_hash = blockchain.hash(previous_block)
-		block = blockchain.create_block(proof, previous_hash)
-                
-		response = {'message': 'A block is MINED',
-            		  'index': block['index'],
-        			  'timestamp': block['timestamp'],
-                      'proof': block['proof'],
-                      'previous_hash': block['previous_hash']}
-                
-		json_data = json.dumps(response)
-		return render_template('mine.html', json_data=json_data)
-	else:
-		return redirect(url_for('login'))
+        json_data = json.dumps(response)
+        return render_template('mine.html', json_data=json_data)
+    else:
+        return redirect(url_for('login'))
         
 # Display blockchain in json format
 @app.route('/get_chain', methods=['GET'])
@@ -70,7 +66,7 @@ def display_chain():
     if 'username' in session:
         response = {'chain': blockchain.chain,'length': len(blockchain.chain)}
         json_data = json.dumps(response) 
-        return render_template('get_chain.html', json_data=json_data)
+        return render_template('get_chain.html', chain=blockchain.chain, length=len(blockchain.chain))
     else:
         return redirect(url_for('login'))
           
@@ -79,11 +75,11 @@ def display_chain():
 @app.route('/valid', methods=['GET'])
 def valid():
 	if 'username' in session:
-		valid = blockchain.check_chain_validity(blockchain.chain)
+		valid = blockchain.check_chain_validity()
 		if valid:
 			response = {'message': 'The Blockchain is valid.'}
 		else:
-			response = {'message': 'The Blockchain is not valid.'}
+			response = {'message': 'The Blockchain is invalid!'}
 			return jsonify(response), 200
 	else:
 		return redirect(url_for('login'))

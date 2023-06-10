@@ -48,18 +48,18 @@ class Blockchain:
 		return current_proof
 
 	def check_chain_validity(self): #recalculating of all hashes and proofs
-		previous_block = self.chain[0]
-		block_index = 1
-		while block_index < len(self.chain):
-			block = self.chain[block_index]
-			if block['previous_hash'] != self.block_hash(previous_block): #checking block integrity
+		prev_blk = self.chain[0]
+		index_blk = 1
+		while index_blk < len(self.chain):
+			block = self.chain[index_blk]
+			if block['previous_hash'] != self.block_hash(prev_blk): #checking block integrity
 				return False
-			previous_proof = previous_block['proof']
+			previous_proof = prev_blk['proof']
 			proof = block['proof']
 			hash_op = self.pow_hash(proof,previous_proof) #checking if author has actually met the requirements to append a block
 			if hash_op[:5] != '00000':
 				return False
-			previous_block = block
-			block_index += 1
+			prev_blk = block
+			index_blk += 1
 		return True
 

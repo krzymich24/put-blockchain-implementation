@@ -1,12 +1,97 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Lenght of the chain</title>
-</head>
+    <head>
+        <title>Length of the chain</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                padding: 0;
+                background-color: #f2f2f2;
+            }
+            
+            h2 {
+                font-size: 24px;
+                color: #333;
+            }
+            
+            p {
+                margin: 10px 0;
+            }
+            
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+            
+            th {
+                background-color: #f2f2f2;
+            }
+            
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            
+            ol {
+                margin: 0;
+                padding: 0 0 0 20px;
+            }
+            
+            #length {
+                font-weight: bold;
+            }
+            
+            form {
+                margin-bottom: 10px;
+            }
+            
+            input[type="submit"],
+            button {
+                background-color: #4CAF50;
+                border: none;
+                color: white;
+                padding: 8px 16px;
+                text-decoration: none;
+                font-size: 14px;
+                cursor: pointer;
+            }
+            
+            input[type="submit"]:hover,
+            button:hover {
+                background-color: #45a049;
+            }
+        </style>
+    </head>
 <body>
     <h2>Make it bigger</h2>
     <p>Chain:</p>
-    <ol id="chain"></ol>
+    <table>
+        <tr>
+            <th>Index</th>
+            <th>Message</th>
+            <th>Author</th>
+            <th>Timestamp</th>
+            <th>Proof</th>
+            <th>Previous hash</th>
+        </tr>
+        {% for block in chain %}
+        <tr>
+            <td>{{ block.index }}</td>
+            <td>{{ block.message }}</td>
+            <td>{{ block.author }}</td>
+            <td>{{ block.timestamp }}</td>
+            <td>{{ block.proof }}</td>
+            <td>{{ block.previous_hash }}</td>
+        </tr>
+        {% endfor %}
+    </table>
     <p>Length: <span id="length"></span></p>
    
     <form action="/home">
@@ -21,27 +106,5 @@
     <form action="{{ url_for('logout') }}" method="GET">
         <button type="submit">Logout</button>
     </form>
-    <script>
-        // Retrieve the JSON string passed from Flask
-        var jsonString = '{{ json_data|safe }}';
-
-        // Parse the JSON string into a JavaScript object
-        var jsonData = JSON.parse(jsonString)
-        const chain = (jsonData.chain ?? [])
-        .map(block=>{
-            const{index,previous_hash,proof,timestamp}=block
-            return JSON.stringify(block)
-            //return `${index} , ${previous_hash} , ${proof} , ${timestamp}`
-        })
-        .map(el=>`<li>${el}</li>`)
-        .join('')   
-        
-        // Access the data and display it on the webpage
-        console.log(jsonData.chain);
-
-        document.getElementById('chain').innerHTML = chain;
-        document.getElementById('length').textContent = jsonData.length;
-
-    </script>
 </body>
 </html>
