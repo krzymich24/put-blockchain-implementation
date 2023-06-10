@@ -64,8 +64,6 @@ def mine_block():
 @app.route('/get_chain', methods=['GET'])
 def display_chain():
     if 'username' in session:
-        response = {'chain': blockchain.chain,'length': len(blockchain.chain)}
-        json_data = json.dumps(response) 
         return render_template('get_chain.html', chain=blockchain.chain, length=len(blockchain.chain))
     else:
         return redirect(url_for('login'))
