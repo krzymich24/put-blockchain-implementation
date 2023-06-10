@@ -74,15 +74,18 @@ def display_chain():
 # Check validity of blockchain
 @app.route('/valid', methods=['GET'])
 def valid():
-	if 'username' in session:
-		valid = blockchain.check_chain_validity()
-		if valid:
-			response = {'message': 'The Blockchain is valid.'}
-		else:
-			response = {'message': 'The Blockchain is invalid!'}
-			return jsonify(response), 200
-	else:
-		return redirect(url_for('login'))
+    if 'username' in session:
+        validity = blockchain.check_chain_validity()
+
+        if validity:
+            response = {'message': 'The Blockchain is valid.'}
+        else:
+            response = {'message': 'The Blockchain is invalid!'}
+
+        return jsonify(response), 200
+    else:
+        return redirect(url_for('login'))
+    
 
 # Clear the session and redirect to the login page        
 @app.route('/logout')
