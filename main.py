@@ -1,6 +1,7 @@
 import json
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session
 import datetime
+import hashlib
 from blockchain import Blockchain
 
 app = Flask(__name__)
@@ -9,9 +10,9 @@ blockchain = Blockchain()
 
 #users list
 users = {
-    'admin': 'passwd',
-    'JP2': '2137',
-    'root': 'root'
+    'admin': '0d6be69b264717f2dd33652e212b173104b4a647b7c11ae72e9885f11cd312fb', #passwd
+    'Andrzej': '3ec0f5f50dfa5607492c4d1b4f16776f2f9d0c7a787d10a78d187c1172721c91', #andrzej1
+    'root': '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2', #root
 }
 
 #login page
@@ -20,7 +21,7 @@ def login():
     if request.method == 'POST':
         # Get the username and password from the login form
         username = request.form.get('username')
-        password = request.form.get('password')
+        password = hashlib.sha256(request.form.get('password').encode()).hexdigest()
 
         if username in users and users[username] == password:
             session['username'] = username         
